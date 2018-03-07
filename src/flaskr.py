@@ -30,6 +30,8 @@ def authenticate(username, password):
 def identity(payload):
     user_id = payload['identity']
     user = User.query.get(user_id)
+    # tuple 로도 내려줄 수 있고,
+    # dict 로도 내려줄 수 있습니다.
     return (user.username, user.id, user.email) # 이런식으로 id, user.id 를 내려줄수가 있습니다.
 
 jwt = JWT(app, authenticate, identity)
@@ -37,7 +39,7 @@ jwt = JWT(app, authenticate, identity)
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def hello_jwt():
-    print(f"Current User.id is \"{current_identity}\"")
+    print(f"Current Session User Identity is \"{current_identity}\"")
 
     return jsonify({
         'message': 'hello world!'
