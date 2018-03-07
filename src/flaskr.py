@@ -1,5 +1,5 @@
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -29,14 +29,16 @@ def authenticate(username, password):
 
 def identity(payload):
     user_id = payload['identity']
-    user = session.query(User).get(user_id)
-    return user.id
+    user = User.query.get(user_id)
+    return (user.username, user.id, user.email) # 이런식으로 id, user.id 를 내려줄수가 있습니다.
 
 jwt = JWT(app, authenticate, identity)
 
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def hello_jwt():
+    print(f"Current User.id is \"{current_identity}\"")
+
     return jsonify({
         'message': 'hello world!'
     })

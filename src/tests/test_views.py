@@ -37,7 +37,7 @@ class TestSimpleView(BaseTestCase):
         # 이제 헤더에 토큰을 추가해서 다시 시도합니다.
         token = json.loads(res.data)["access_token"]
         res = self.client.get(
-                "/",
+                "/protected",
                 headers={'Authorization': 'JWT ' + token})
         assert res.status_code == 200
 
