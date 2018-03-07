@@ -40,6 +40,4 @@ class TestSimpleView(BaseTestCase):
                 "/protected",
                 headers={'Authorization': 'JWT ' + token})
         assert res.status_code == 200
-
-
-
+        print(res.data)
