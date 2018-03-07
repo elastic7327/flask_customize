@@ -11,7 +11,7 @@ class BaseTestCase(unittest.TestCase):
         # return app
 
     def setUp(self):
-        app.config.from_object('src.settings.TestingConfig')
+        app.config.from_object('src.configs.settings.TestingConfig')
         app.config['TESTING'] = True
         # self.app = app.test_client()
         mixer.init_app(app)

@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = 'super-secret'
 db = SQLAlchemy(app)
 # flask-migrate
 migrate = Migrate(app, db)
-from src.models import User
+from src.models.models import User
 
 def authenticate(username, password):
     user = User.query.filter(

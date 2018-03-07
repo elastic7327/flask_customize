@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from src.models import User
+from src.models.models import User
 from mixer.backend.flask import mixer
 
 from src.tests.base import BaseTestCase
