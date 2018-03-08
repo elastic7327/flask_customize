@@ -5,6 +5,10 @@ import pytest
 from src.models.models import User
 from src.tests.base import BaseTestCase
 
+from src.flaskr import app, db
+
+from sqlalchemy import exc
+
 from mixer.backend.flask import mixer
 
 class TestSimpleModels(BaseTestCase):
@@ -23,8 +27,13 @@ class TestSimpleModels(BaseTestCase):
 
     @pytest.mark.skip(reason="skip it for a moment")
     def test_create_fake_user_and_unique_fields(self):
-        user_one = mixer.blend(User, username="daniel")
-        user_two = mixer.blend(User, username="daniel")
+        try:
+            user_one = mixer.blend(User, username="daniel")
+            user_two = mixer.blend(User, username="daniel")
+
+        except exc.IntegrityError as e:
+
+            db.session().rollback()
 
     def test_create_ten_fake_users(self):
         for n in range(10):

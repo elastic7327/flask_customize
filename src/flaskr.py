@@ -42,8 +42,7 @@ jwt = JWT(app, authenticate, identity)
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def hello_jwt():
-    print(f"Current Session User Identity is \"{current_identity}\"")
-
+    # print(f"Current Session User Identity is \"{current_identity}\"")
     return jsonify({
         'message': 'hello world!',
         'info': f'{current_identity}'
