@@ -6,14 +6,13 @@ import unittest
 
 
 class BaseTestCase(unittest.TestCase):
-    # def create_app(self):
-        # app.config.from_object('src.settings.TestingConfig')
-        # return app
 
     def setUp(self):
+        # get test-config
         app.config.from_object('src.configs.settings.TestingConfig')
         app.config['TESTING'] = True
-        # self.app = app.test_client()
+
+        # init mixer
         mixer.init_app(app)
         self.client = app.test_client()
 
@@ -21,4 +20,5 @@ class BaseTestCase(unittest.TestCase):
         db.create_all()
 
     def tearDown(self):
-        pass
+        db.session.remove()
+        db.drop_all()
