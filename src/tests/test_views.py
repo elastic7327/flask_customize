@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import pytest
 
 from src.tests.base import BaseTestCase
 from src.flaskr import User
@@ -13,6 +14,12 @@ class TestSimpleView(BaseTestCase):
     def test_hello_world(self):
         res =self.client.get("/")
         assert res.status_code == 200
+
+    def test_jwt_without_token(self):
+        res = self.client.get(
+                "/protected",
+                content_type="application/x-www-form-urlencoded")
+        assert res.status_code == 401
 
     def test_jwt_and_auth_test(self):
         # 토큰없이 시도를 할때에는 401 에러는 받습니다.
@@ -40,4 +47,14 @@ class TestSimpleView(BaseTestCase):
                 "/protected",
                 headers={'Authorization': 'JWT ' + token})
         assert res.status_code == 200
-        # print(res.data)
+
+    def test_jwt_with_unvalid_token(self):
+
+        token = "I-A-M-F-A-K-E-T-O-K-E-N"
+        res = self.client.get(
+                "/protected",
+                headers={'Authorization': 'JWT ' + token})
+
+        assert res.status_code == 401
+
+
